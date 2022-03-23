@@ -17,7 +17,7 @@ public class SlackAppflowRepository {
 
         /*
         SlackConnectorProfileProperties slackConnectorProfileProperties = SlackConnectorProfileProperties.builder()
-                .instanceUrl("https://slack-4dq4085.slack.com")
+                .instanceUrl()
                 .build();
 
         ConnectorProfileProperties properties = ConnectorProfileProperties.builder()
@@ -26,13 +26,13 @@ public class SlackAppflowRepository {
 
 
         ConnectorOAuthRequest request = ConnectorOAuthRequest.builder()
-                .redirectUri("https://us-west-2.console.aws.amazon.com/appflow/oauth")
+                .redirectUri(")
                 .build();
 
         SlackConnectorProfileCredentials slackConnectorProfileCredentials = SlackConnectorProfileCredentials.builder()
-                .accessToken("xoxp-3168984408642-3171313570388-3192844788080-8dac237ce56c8e1a18d92e27825a5e86")
-                .clientId("3168984408642.3169059850546")
-                .clientSecret("6842e842b56feb201ab74ddf890e35fe")
+                .accessToken()
+                .clientId()
+                .clientSecret()
                 .oAuthRequest(request).build();
 
 
