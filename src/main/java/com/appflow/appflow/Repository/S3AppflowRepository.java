@@ -2,10 +2,16 @@ package com.appflow.appflow.Repository;
 
 import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Repository;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.appflow.AppflowClient;
 import software.amazon.awssdk.services.appflow.model.*;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Collections;
 
 @Repository
@@ -81,5 +87,16 @@ public class S3AppflowRepository {
         } catch (Exception e) {
             return "Failed to create the flow";
         }
+    }
+
+    public Object uploadFileToS3(String fileName, String bucket, String prefix) {
+
+        S3Client client = S3Client.builder().build();
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucket(bucket).key(prefix+"/"+fileName).build();
+
+        PutObjectResponse response = client.putObject(request, RequestBody.fromFile(new File(fileName)));
+        return "uploaded";
     }
 }

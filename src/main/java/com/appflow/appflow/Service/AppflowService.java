@@ -1,6 +1,7 @@
 package com.appflow.appflow.Service;
 
 import com.appflow.appflow.Repository.AppflowRepository;
+import com.appflow.appflow.Repository.DatabseFlowRepository;
 import com.appflow.appflow.Repository.S3AppflowRepository;
 import com.appflow.appflow.Repository.SalesforceAppflowRepository;
 import net.minidev.json.JSONArray;
@@ -16,15 +17,18 @@ public class AppflowService {
     private final AppflowRepository appflowRepository;
     private final SalesforceAppflowRepository salesforceAppflowRepository;
     private final S3AppflowRepository s3AppflowRepository;
+    private final DatabseFlowRepository databseFlowRepository;
 
 
     public  AppflowService(AppflowRepository appflowRepository,
                            SalesforceAppflowRepository salesforceAppflowRepository,
-                           S3AppflowRepository s3AppflowRepository) {
+                           S3AppflowRepository s3AppflowRepository,
+                           DatabseFlowRepository databseFlowRepository) {
 
         this.appflowRepository = appflowRepository;
         this.salesforceAppflowRepository = salesforceAppflowRepository;
         this.s3AppflowRepository = s3AppflowRepository;
+        this.databseFlowRepository = databseFlowRepository;
     }
 
     public Object createS3Flow (String requestBody) {
@@ -64,6 +68,20 @@ public class AppflowService {
         try {
             JSONObject body = (JSONObject) new JSONParser().parse(requstBody);
             return salesforceAppflowRepository.createSalesforceFlow(body);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Object createDatabaseFlow(String requstBody) {
+        try {
+            JSONObject body = (JSONObject) new JSONParser().parse(requstBody);
+            databseFlowRepository.insertDataInCSV();
+            s3AppflowRepository.uploadFileToS3("database.csv",
+                    body.getAsString("source"),
+                    body.getAsString("prefix"));
+            return s3AppflowRepository.createS3Flow(body);
         } catch (ParseException e) {
             e.printStackTrace();
         }
