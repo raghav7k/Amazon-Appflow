@@ -1,6 +1,8 @@
 package com.appflow.appflow.Controller;
 
+import com.appflow.appflow.Repository.S3AppflowRepository;
 import com.appflow.appflow.Service.AppflowService;
+import com.appflow.appflow.Repository.DatabseFlowRepository;
 import com.appflow.appflow.Service.SlackAppflowService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,7 @@ public class AppflowController {
     private final SlackAppflowService slackAppflowService;
 
     public AppflowController(AppflowService appflowService,
-                             SlackAppflowService slackAppflowService) {
+                             SlackAppflowService slackAppflowService, DatabseFlowRepository jsonWork, S3AppflowRepository s3AppflowRepository) {
 
         this.appflowService = appflowService;
         this.slackAppflowService = slackAppflowService;
@@ -42,6 +44,11 @@ public class AppflowController {
     @PostMapping("salesforce")
     public Object createSalesforceflow(@RequestBody String requestBody) {
         return appflowService.createSalesforceFlow(requestBody);
+    }
+
+    @PostMapping("database")
+    public Object createDatabaseFlow(@RequestBody String requstBody) {
+        return appflowService.createDatabaseFlow(requstBody);
     }
 
 
